@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ image_file }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ current_user.username }}</h2>
+          <p class="text-secondary">{{ current_user.email }}</p>
+          {% if current_user != user %}
+<form action="{{ url_for('follow', username=user.username) }}" method="post">
+    {% if current_user.is_following(user) %}
+    <input type="submit" value="Unfollow">
+    {% else %}
+    <input type="submit" value="Follow">
+    {% endif %}
+</form>
+{% endif %}
+        </div>
+      </div>
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Account Info</legend>
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}
+
+                    {% if form.username.errors %}
+                        {{ form.username(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.picture.label() }}
+                    {{ form.picture(class="form-control-file") }}
+                    {% if form.picture.errors %}
+                        {% for error in form.picture.errors %}
+                            <span class="text-danger">{{ error }}</span></br>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="card-header">
+    <h4 class="card-title">Followers</h4>
+    <p>Followers: {{ user.num_followers }}</p>
+    <button class="btn btn-primary" id="followers-btn">Show Followers</button>
+</div>
+<div class="card-body" id="followers-list" style="display:none;">
+    {% for follower in user.followers %}
+        <a href="{{ url_for('user_profile', username=follower.username) }}">{{ follower.username }}</a>
+    {% endfor %}
+</div>
+<div class="card-header">
+    <h4 class="card-title">Following</h4>
+    <p>Following: {{ user.num_following }}</p>
+    <button class="btn btn-primary" id="following-btn">Show Following</button>
+</div>
+<div class="card-body" id="following-list" style="display:none;">
+    {% for followed in user.followed %}
+        <a href="{{ url_for('user_profile', username=followed.username) }}">{{ followed.username }}</a>
+    {% endfor %}
+</div>
+<script>
+    document.getElementById("followers-btn").addEventListener("click", function(){
+        var x = document.getElementById("followers-list");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    });
+    document.getElementById("following-btn").addEventListener("click", function(){
+        var x = document.getElementById("following-list");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    });
+</script>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+            <ul class="navbar-nav ml-auto list-style-none">
+  <li class="nav-item">
+    <a class="nav-link" href="{{ url_for('delete_account') }}">Delete Account</a>
+  </li>
+</ul>
+
+        </form>
+    </div>
+{% endblock content %}

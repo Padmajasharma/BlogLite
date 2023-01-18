@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+    <img src="{{ user.profile_photo }}" alt="{{ user.username }}" class="profile-photo">
+    <h1>{{ user.username }}</h1>
+    <p>Followers: {{ user.num_followers }}</p><p>Following: {{ user.num_following }}</p>
+    <p>{{ user.email }}</p>
+    <p>{{ user.username }} has created {{ blog_count }} blog posts.</p>
+    {% if current_user.is_following(user) %}
+    <form action="{{ url_for('unfollow', username=user.username) }}" method="POST">
+        <button type="submit" class="btn btn-danger">Unfollow</button>
+        {{ form.csrf_token }}
+    </form>
+{% else %}
+    <form action="{{ url_for('follow', username=user.username) }}" method="POST">
+        <button type="submit" class="btn btn-primary">Follow</button>
+        {{ form.csrf_token }}
+    </form>
+{% endif %}
+{% for post in posts %}
+<div class="card">
+    <div class="card-header">{{ post.title }}</div>
+    <div class="card-body">{{ post.content }}</div>
+</div>
+{% endfor %}
+</div>
+{% endblock content %}

@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block content %}
+  <h2>Delete Account</h2>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <p>Are you sure you want to delete your account?</p>
+    <input type="submit" name="confirm" value="Yes, delete my account">
+  </form>
+{% endblock %}

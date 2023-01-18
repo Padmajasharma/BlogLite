@@ -1,0 +1,14 @@
+<ul>
+  {% for user in results %}
+    <li>{{ user.username }}</li>
+  {% endfor %}
+</ul>
+<div class="container">
+    {% for user in results %}
+        <a href="{{url_for('user_profile', username=user.username)}}">
+            <img src="{{ user.image_file }}" alt="{{ user.username }}" class="profile-photo">
+            <p>{{ user.username }}</p>
+        </a>
+    {% endfor %}
+</div>
+
