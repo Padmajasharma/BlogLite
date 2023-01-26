@@ -21,8 +21,8 @@ app.config['MAIL_SERVER'] = 'smtp.sendgrid.net'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = 'apikey'
-app.config['MAIL_PASSWORD'] = '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'
+app.config['MAIL_USERNAME'] =
+
 mail = Mail(app)
 
 from flaskblog import routes
